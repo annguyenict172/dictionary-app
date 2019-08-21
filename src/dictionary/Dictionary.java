@@ -1,6 +1,5 @@
 package dictionary;
 
-import java.util.ArrayList;
 
 public class Dictionary {
 	WordStorage wordStorage;
@@ -11,8 +10,8 @@ public class Dictionary {
 		// addWord
 	}
 	
-	public void addNewWord(String text, ArrayList<String> meanings) {
-		this.wordStorage.add(text, meanings);
+	public void addNewWord(String text, String meaning) {
+		this.wordStorage.add(text, meaning);
 	}
 	
 	public Word searchWord(String text) {

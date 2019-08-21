@@ -1,29 +1,28 @@
 package dictionary;
 
-import java.util.ArrayList;
 
 public class Word {
 	private String text;
-	private ArrayList<String> meanings;
+	private String meaning;
 	
-	public Word(String text, ArrayList<String> meanings) {
+	public Word(String text, String meaning) {
 		this.text = text;
-		this.meanings = meanings;
+		this.meaning = meaning;
 	}
 	
 	public String getText() {
 		return this.text;
 	}
 	
-	public ArrayList<String> getMeanings() {
-		return this.meanings;
+	public String getMeaning() {
+		return this.meaning;
 	}
 	
 	public void setText(String text) {
 		this.text = text;
 	}
 	
-	public void addMeaning(String meaning) {
-		this.meanings.add(meaning);
+	public void setMeaning(String meaning) {
+		this.meaning = meaning;
 	}
 }

@@ -9,11 +9,11 @@ public class BSTWordStorage implements WordStorage {
 		this.root = null;
 	}
 	
-	public boolean add(String text, ArrayList<String> meanings) {
+	public boolean add(String text, String meaning) {
 		if (this.search(text) != null) {
 			return false;
 		}
-		Node newNode = new Node(new Word(text, meanings));
+		Node newNode = new Node(new Word(text, meaning));
 		root = this.addRecursively(this.root, newNode);
 		return true;
 	}

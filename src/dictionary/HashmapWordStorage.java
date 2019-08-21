@@ -11,11 +11,11 @@ public class HashmapWordStorage implements WordStorage {
 		this.mapper = new HashMap<String, Word>();
 	}
 	
-	public boolean add(String text, ArrayList<String> meanings) {
+	public boolean add(String text, String meaning) {
 		if (mapper.get(text) != null) {
 			return false;
 		}
-		mapper.put(text, new Word(text, meanings));
+		mapper.put(text, new Word(text, meaning));
 		return true;
 	}
 	

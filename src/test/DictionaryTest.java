@@ -13,9 +13,9 @@ class DictionaryTest {
 	@Test
 	void testHashmapWordStorage() {
 		Dictionary dictionary = new Dictionary("hello.txt", new HashmapWordStorage());
-		dictionary.addNewWord("carrot", new ArrayList<String>());
-		dictionary.addNewWord("banana", new ArrayList<String>());
-		dictionary.addNewWord("apple", new ArrayList<String>());
+		dictionary.addNewWord("carrot", "vegetable");
+		dictionary.addNewWord("banana", "fruit");
+		dictionary.addNewWord("apple", "fruit");
 		
 		
 		assertEquals(dictionary.searchWord("apple").getText(), "apple");
@@ -27,9 +27,9 @@ class DictionaryTest {
 	@Test
 	void testBSTWordStorage() {
 		Dictionary dictionary = new Dictionary("hello.txt", new HashmapWordStorage());
-		dictionary.addNewWord("carrot", new ArrayList<String>());
-		dictionary.addNewWord("banana", new ArrayList<String>());
-		dictionary.addNewWord("apple", new ArrayList<String>());
+		dictionary.addNewWord("carrot", "vegetable");
+		dictionary.addNewWord("banana", "fruit");
+		dictionary.addNewWord("apple", "fruit");
 		
 		
 		assertEquals(dictionary.searchWord("apple").getText(), "apple");
