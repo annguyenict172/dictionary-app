@@ -1,12 +1,34 @@
 package dictionary;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+import org.json.simple.parser.*;
 
 public class BSTWordStorage implements WordStorage {
 	public Node root;
 	
 	public BSTWordStorage() {
 		this.root = null;
+	}
+	
+	public void loadFromURI(String uri) throws IOException {
+		try {
+			JSONObject jsonDictionary = (JSONObject) new JSONParser().parse(new FileReader(uri)); 
+			ArrayList<String> words = new ArrayList<String>(jsonDictionary.keySet());
+			for (String word : words) {
+			    this.add(word, (String) jsonDictionary.get(word)); 
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean add(String text, String meaning) {
@@ -72,6 +94,10 @@ public class BSTWordStorage implements WordStorage {
 		} else {
 			return this.searchNodeRecursively(current.right, text);
 		}
+	}
+	
+	public void persist() throws IOException {
+		
 	}
 	
 	public void display() {

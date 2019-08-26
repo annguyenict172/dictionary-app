@@ -12,7 +12,7 @@ class DictionaryTest {
 
 	@Test
 	void testHashmapWordStorage() {
-		Dictionary dictionary = new Dictionary("hello.txt", new HashmapWordStorage());
+		Dictionary dictionary = new Dictionary(new HashmapWordStorage());
 		dictionary.addNewWord("carrot", "vegetable");
 		dictionary.addNewWord("banana", "fruit");
 		dictionary.addNewWord("apple", "fruit");
@@ -26,7 +26,7 @@ class DictionaryTest {
 	
 	@Test
 	void testBSTWordStorage() {
-		Dictionary dictionary = new Dictionary("hello.txt", new HashmapWordStorage());
+		Dictionary dictionary = new Dictionary(new HashmapWordStorage());
 		dictionary.addNewWord("carrot", "vegetable");
 		dictionary.addNewWord("banana", "fruit");
 		dictionary.addNewWord("apple", "fruit");
