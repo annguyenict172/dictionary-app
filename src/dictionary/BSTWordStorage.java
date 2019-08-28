@@ -99,15 +99,4 @@ public class BSTWordStorage implements WordStorage {
 	public void persist() throws IOException {
 		
 	}
-	
-	public void display() {
-		this.displayRecursively(this.root);
-	}
-	
-	public void displayRecursively(Node node) {
-		if (node == null) return;
-		this.displayRecursively(node.left);
-		System.out.println(node.getValue());
-		this.displayRecursively(node.right);
-	}
 }

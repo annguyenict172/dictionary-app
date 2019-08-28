@@ -8,19 +8,15 @@ public class Dictionary {
 		this.wordStorage = wordStorage;
 	}
 	
-	public void addNewWord(String text, String meaning) {
-		this.wordStorage.add(text, meaning);
+	public synchronized boolean addNewWord(String text, String meaning) {
+		return this.wordStorage.add(text, meaning);
 	}
 	
-	public Word searchWord(String text) {
+	public synchronized Word searchWord(String text) {
 		return this.wordStorage.search(text);
 	}
 	
-	public void deleteWord(String text) {
-		this.wordStorage.remove(text);
-	}
-	
-	public void display() {
-		this.wordStorage.display();
+	public synchronized boolean deleteWord(String text) {
+		return this.wordStorage.remove(text);
 	}
 }

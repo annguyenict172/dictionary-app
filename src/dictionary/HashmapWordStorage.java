@@ -50,14 +50,6 @@ public class HashmapWordStorage implements WordStorage {
 		return mapper.get(text);
 	}
 	
-	public void display() {
-		ArrayList<String> sortedKeys = new ArrayList<String>(this.mapper.keySet());
-		Collections.sort(sortedKeys);
-		for (String key : sortedKeys) {
-		    System.out.println(mapper.get(key).getText());
-		}
-	}
-	
 	public void persist() throws IOException {
 		
 	}
