@@ -1,7 +1,13 @@
+/* 
+ * NAME: AN NGUYEN
+ * STUDENT ID: 1098402
+ */
+
 package client;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,7 +24,9 @@ public class DictionaryService extends DictionaryClient {
 	
 	private static Socket connectToServer() throws ServerException {
 		try {
-			return new Socket(serverAddress, serverPort);
+			Socket serverSocket = new Socket(serverAddress, serverPort);
+			serverSocket.setSoTimeout(10000);
+			return serverSocket;
 		} catch (IOException e) {
 			throw new ServerException("Cannot connect to server: " + serverAddress + ":" + serverPort + ".");
 		}
@@ -29,8 +37,9 @@ public class DictionaryService extends DictionaryClient {
 		
 		JSONObject requestData = new JSONObject();
 		requestData.put("text", text);
-		
+
 		sendRequestToServer(serverSocket, RequestType.SEARCH_WORD, requestData);
+
 		JSONObject serverResponse = readResponseFromServer(serverSocket);
 		
 		JSONObject responseData = (JSONObject) serverResponse.get(ResponseField.DATA);
@@ -94,9 +103,10 @@ public class DictionaryService extends DictionaryClient {
 			return serverResponse;
 		} catch (ParseException e) {
 			throw new ServerException("Response not in JSON format.");
+		} catch (SocketTimeoutException e) {
+			throw new ServerException("Request timeout.");
 		} catch (IOException e) {
 			throw new ServerException("Cannot process response from server.");
 		}
-		
 	}
 }

@@ -1,8 +1,13 @@
+/* 
+ * NAME: AN NGUYEN
+ * STUDENT ID: 1098402
+ */
+
 package dictionary;
 
 
 public class Dictionary {
-	WordStorage wordStorage;
+	private WordStorage wordStorage;
 	
 	public Dictionary(WordStorage wordStorage) {
 		this.wordStorage = wordStorage;

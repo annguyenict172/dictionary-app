@@ -1,3 +1,8 @@
+/* 
+ * NAME: AN NGUYEN
+ * STUDENT ID: 1098402
+ */
+
 package server;
 
 import java.net.ServerSocket;
@@ -27,7 +32,7 @@ public class DictionaryServer {
 		}
 
 		String dictionaryFilePath = args[1];
-		WordStorage wordStorage = new BSTWordStorage();
+		WordStorage wordStorage = new HashmapWordStorage();
 		try {
 			wordStorage.loadFromURI(dictionaryFilePath);
 		} catch (IOException e) {

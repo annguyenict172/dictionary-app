@@ -1,3 +1,8 @@
+/* 
+ * NAME: AN NGUYEN
+ * STUDENT ID: 1098402
+ */
+
 package server;
 
 import java.io.InputStream;
@@ -25,7 +30,6 @@ public class ConnectionThread implements Runnable {
 	
 	public void run() {
 		try {
-			
 			JSONObject userRequest = this.readUserRequest();
 			String requestType = (String) userRequest.get(RequestField.TYPE);
 			JSONObject requestData = (JSONObject) userRequest.get(RequestField.DATA);
@@ -64,7 +68,6 @@ public class ConnectionThread implements Runnable {
 	}
 	
 	private JSONObject readUserRequest() throws IOException, ParseException {
-		System.out.println("reading user request");
 		InputStream clientInput = this.clientSocket.getInputStream();
 		JSONObject clientMessage = (JSONObject) new JSONParser().parse(new InputStreamReader(clientInput));
 		System.out.println(clientMessage.toString());
@@ -72,8 +75,21 @@ public class ConnectionThread implements Runnable {
 	}
 	
 	private void handleAddNewWord(String text, String meaning) throws IOException {
-		boolean added = this.dictionary.addNewWord(text, meaning);
 		JSONObject responseData = new JSONObject();
+		
+		if (this.isEmptyString(text)) {
+			responseData.put("message", "Please fill in the word.");
+			this.sendResponseToUser(ResponseStatus.ERROR, responseData);
+			return;
+		}
+		if (this.isEmptyString(meaning)) {
+			responseData.put("message", "Please fill in the meaning.");
+			this.sendResponseToUser(ResponseStatus.ERROR, responseData);
+			return;
+		}
+		
+		
+		boolean added = this.dictionary.addNewWord(text, meaning);
 		if (added) {
 			responseData.put("message", "The word \"" + text + "\" has been added.");
 			this.sendResponseToUser(ResponseStatus.SUCCESS, responseData);
@@ -85,8 +101,15 @@ public class ConnectionThread implements Runnable {
 	}
 	
 	private void handleSearchWord(String text) throws IOException {
-		Word word = this.dictionary.searchWord(text);
 		JSONObject responseData = new JSONObject();
+		
+		if (this.isEmptyString(text)) {
+			responseData.put("message", "Please fill in the word.");
+			this.sendResponseToUser(ResponseStatus.ERROR, responseData);
+			return;
+		}
+		
+		Word word = this.dictionary.searchWord(text);
 		if (word != null) {
 			responseData.put("text", word.getText());
 			responseData.put("meaning", word.getMeaning());
@@ -98,8 +121,15 @@ public class ConnectionThread implements Runnable {
 	}
 	
 	private void handleDeleteWord(String text) throws IOException {
-		boolean deleted = this.dictionary.deleteWord(text);
 		JSONObject responseData = new JSONObject();
+		
+		if (this.isEmptyString(text)) {
+			responseData.put("message", "Please fill in the word.");
+			this.sendResponseToUser(ResponseStatus.ERROR, responseData);
+			return;
+		}
+		
+		boolean deleted = this.dictionary.deleteWord(text);
 		if (deleted) {
 			responseData.put("message", "The word \"" + text + "\" has been deleted.");
 			this.sendResponseToUser(ResponseStatus.SUCCESS, responseData);
@@ -122,5 +152,9 @@ public class ConnectionThread implements Runnable {
 		response.put(ResponseField.DATA, data);
 		clientOutput.write(response.toString().getBytes());
 		this.clientSocket.close();
+	}
+	
+	private boolean isEmptyString(String str) {
+		return str.replaceAll("\\s","").isEmpty();
 	}
 }
