@@ -20,7 +20,6 @@ import dictionary.Word;
 public class DictionaryService extends DictionaryClient {
 	public static String serverAddress = "localhost";
 	public static int serverPort = 5000;
-	private static Socket serverSocket;
 	
 	private static Socket connectToServer() throws ServerException {
 		try {
@@ -42,9 +41,18 @@ public class DictionaryService extends DictionaryClient {
 
 		JSONObject serverResponse = readResponseFromServer(serverSocket);
 		
-		JSONObject responseData = (JSONObject) serverResponse.get(ResponseField.DATA);
+		JSONObject responseData;
+		try {
+			responseData = (JSONObject) serverResponse.get(ResponseField.DATA);
+		} catch (NullPointerException e) {
+			throw new ServerException("Server does not return any data.");
+		}
 		
-		return new Word((String) responseData.get("text"), (String) responseData.get("meaning"));
+		try {
+			return new Word((String) responseData.get("text"), (String) responseData.get("meaning"));
+		} catch (NullPointerException e) {
+			throw new ServerException("Server does not return any data.");
+		}
 	}
 	
 	public static void addNewWord(String text, String meaning) throws ServerException {
@@ -55,9 +63,6 @@ public class DictionaryService extends DictionaryClient {
 		requestData.put("meaning", meaning);
 		
 		sendRequestToServer(serverSocket, RequestType.ADD_NEW_WORD, requestData);
-		
-		JSONObject serverResponse = readResponseFromServer(serverSocket);
-		System.out.println(serverResponse.toString());
 	}
 	
 	public static void deleteWord(String text) throws ServerException {
@@ -67,8 +72,6 @@ public class DictionaryService extends DictionaryClient {
 		requestData.put("text", text);
 		
 		sendRequestToServer(serverSocket, RequestType.DELETE_WORD, requestData);
-		
-		JSONObject serverResponse = readResponseFromServer(serverSocket);
 	}
 	
 	private static void sendRequestToServer(Socket serverSocket, String type, JSONObject data) throws ServerException {

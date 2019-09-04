@@ -35,20 +35,17 @@ public class ConnectionThread implements Runnable {
 			JSONObject requestData = (JSONObject) userRequest.get(RequestField.DATA);
 			switch(requestType) {
 				case RequestType.ADD_NEW_WORD:
-					this.handleAddNewWord(
-						(String) requestData.get("text"), 
-						(String) requestData.get("meaning")
-					);
+					String newWord = (String) requestData.get("text");
+					String meaning = (String) requestData.get("meaning");
+					this.handleAddNewWord(newWord, meaning);
 					break;
 				case RequestType.DELETE_WORD:
-					this.handleDeleteWord(
-						(String) requestData.get("text")
-					);
+					String deletedWord = (String) requestData.get("text");
+					this.handleDeleteWord(deletedWord);
 					break;
 				case RequestType.SEARCH_WORD:
-					this.handleSearchWord(
-						(String) requestData.get("text")
-					);
+					String word = (String) requestData.get("text");
+					this.handleSearchWord(word);
 					break;
 				default:
 					this.handleUnknownRequest();
@@ -64,6 +61,14 @@ public class ConnectionThread implements Runnable {
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("Cannot process request of user " + this.clientSocket.getInetAddress().toString() + ":" + e);
+		} catch (NullPointerException e) {
+			try {
+				JSONObject responseData = new JSONObject();
+				responseData.put("message", "Missing required field.");
+				this.sendResponseToUser(ResponseStatus.ERROR, responseData);
+			} catch (IOException error) {
+				throw new RuntimeException("Cannot send response to user " + this.clientSocket.getInetAddress().toString() + ":" + error);
+			}
 		}
 	}
 	
