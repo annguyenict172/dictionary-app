@@ -121,7 +121,7 @@ public class DictionaryClient {
 	}
 
 	private void showErrorDialog(String errorMessage) {
-		showMessageDialog(errorMessage, "Success", JOptionPane.ERROR_MESSAGE);
+		showMessageDialog(errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private void showMessageDialog(String message, String title, int messageType) {
