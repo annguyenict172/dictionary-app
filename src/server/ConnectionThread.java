@@ -93,13 +93,14 @@ public class ConnectionThread implements Runnable {
 			return;
 		}
 		
+		String stripedText = text.replaceAll("\\s","");
 		
-		boolean added = this.dictionary.addNewWord(text, meaning);
+		boolean added = this.dictionary.addNewWord(stripedText, meaning);
 		if (added) {
-			responseData.put("message", "The word \"" + text + "\" has been added.");
+			responseData.put("message", "The word \"" + stripedText + "\" has been added.");
 			this.sendResponseToUser(ResponseStatus.SUCCESS, responseData);
 		} else {
-			responseData.put("message", "The word \"" + text + "\" has already been defined.");
+			responseData.put("message", "The word \"" + stripedText + "\" has already been defined.");
 			this.sendResponseToUser(ResponseStatus.ERROR, responseData);
 		}
 		
@@ -114,13 +115,15 @@ public class ConnectionThread implements Runnable {
 			return;
 		}
 		
-		Word word = this.dictionary.searchWord(text);
+		String stripedText = text.replaceAll("\\s","");
+		
+		Word word = this.dictionary.searchWord(stripedText);
 		if (word != null) {
 			responseData.put("text", word.getText());
 			responseData.put("meaning", word.getMeaning());
 			this.sendResponseToUser(ResponseStatus.SUCCESS, responseData);
 		} else {
-			responseData.put("message", "Cannot find the word \"" + text + "\".");
+			responseData.put("message", "Cannot find the word \"" + stripedText + "\".");
 			this.sendResponseToUser(ResponseStatus.ERROR, responseData);
 		}
 	}
@@ -134,12 +137,14 @@ public class ConnectionThread implements Runnable {
 			return;
 		}
 		
-		boolean deleted = this.dictionary.deleteWord(text);
+		String stripedText = text.replaceAll("\\s","");
+		
+		boolean deleted = this.dictionary.deleteWord(stripedText);
 		if (deleted) {
-			responseData.put("message", "The word \"" + text + "\" has been deleted.");
+			responseData.put("message", "The word \"" + stripedText + "\" has been deleted.");
 			this.sendResponseToUser(ResponseStatus.SUCCESS, responseData);
 		} else {
-			responseData.put("message", "The word \"" + text + "\" does not exist.");
+			responseData.put("message", "The word \"" + stripedText + "\" does not exist.");
 			this.sendResponseToUser(ResponseStatus.ERROR, responseData);
 		}
 	}

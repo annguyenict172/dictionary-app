@@ -63,6 +63,7 @@ public class DictionaryService extends DictionaryClient {
 		requestData.put("meaning", meaning);
 		
 		sendRequestToServer(serverSocket, RequestType.ADD_NEW_WORD, requestData);
+		readResponseFromServer(serverSocket);
 	}
 	
 	public static void deleteWord(String text) throws ServerException {
@@ -72,6 +73,7 @@ public class DictionaryService extends DictionaryClient {
 		requestData.put("text", text);
 		
 		sendRequestToServer(serverSocket, RequestType.DELETE_WORD, requestData);
+		readResponseFromServer(serverSocket);
 	}
 	
 	private static void sendRequestToServer(Socket serverSocket, String type, JSONObject data) throws ServerException {
